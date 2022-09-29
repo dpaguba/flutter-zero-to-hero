@@ -18,7 +18,7 @@ class _CalculatorState extends State<Calculator> {
     "C",
     "%",
     "DEL",
-    "/",
+    "÷",
     "7",
     "8",
     "9",
@@ -45,16 +45,43 @@ class _CalculatorState extends State<Calculator> {
         children: [
           Expanded(child: Container()),
           Expanded(
-              flex: 2,
-              child: Container(
-                child: const Center(
-                    child: MyButton(
-                  textButton: "0",
-                  color: BlackWhiteColors.pink,
-                )),
+            flex: 2,
+            child: Container(
+              child: Center(
+                  child: GridView(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                ),
+                children: buttons
+                    .map((btn) => Center(
+                            child: Container(
+                                child: GridTile(
+                                    child: MyButton(
+                          textButton: btn,
+                          color: (isOperator(btn)
+                              ? BlackWhiteColors.btnBlack
+                              : BlackWhiteColors.bgGrey),
+                          textColor: (isOperator(btn)
+                              ? Colors.white
+                              : BlackWhiteColors.btnBlack),
+                        )))))
+                    .toList(),
               )),
+            ),
+          ),
         ],
       ),
     );
   }
+}
+
+bool isOperator(String str) {
+  return (str == "C" ||
+      str == "DEL" ||
+      str == "÷" ||
+      str == "%" ||
+      str == "x" ||
+      str == "-" ||
+      str == "+" ||
+      str == "=");
 }
