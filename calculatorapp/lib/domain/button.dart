@@ -19,7 +19,11 @@ class MyButton extends StatelessWidget {
             child: Center(
               child: Text(
                 textButton,
-                style: TextStyle(color: textColor, fontSize: 30),
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: 30,
+                  fontFamily: "Orbitron",
+                ),
               ),
             )),
       ),
