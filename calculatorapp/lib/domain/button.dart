@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:calculatorapp/global/color_constants.dart';
 
-class MyButton extends StatelessWidget {
+class MyButton extends StatefulWidget {
   final color;
   final textColor;
   final String textButton;
@@ -9,24 +10,26 @@ class MyButton extends StatelessWidget {
       {super.key, this.color, this.textColor, required this.textButton});
 
   @override
+  State<MyButton> createState() => _MyButtonState();
+}
+
+class _MyButtonState extends State<MyButton> {
+  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-            color: color,
-            child: Center(
-              child: Text(
-                textButton,
-                style: TextStyle(
-                  color: textColor,
-                  fontSize: 30,
-                  fontFamily: "Orbitron",
-                ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+          color: widget.color,
+          child: Center(
+            child: Text(
+              widget.textButton,
+              style: TextStyle(
+                color: widget.textColor,
+                fontSize: 30,
+                fontFamily: "Orbitron",
               ),
-            )),
-      ),
+            ),
+          )),
     );
   }
 }

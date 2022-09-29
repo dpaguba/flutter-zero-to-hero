@@ -14,7 +14,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: "Orbitron"),
-      home: const Calculator(),
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            "Calculator",
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.grey[300],
+          elevation: 0,
+        ),
+        body: const Calculator(),
+      ),
     );
   }
 }

@@ -1,8 +1,9 @@
 import 'package:calculatorapp/domain/button.dart';
 import 'package:calculatorapp/global/color_constants.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 
 class Calculator extends StatefulWidget {
   const Calculator({super.key});
@@ -12,6 +13,9 @@ class Calculator extends StatefulWidget {
 }
 
 class _CalculatorState extends State<Calculator> {
+  var input = "";
+  var calculations = "";
+
   // TODO: icons for del, divide, multiply.
   // TODO: replace two zero buttons with one big zero button
   List<String> buttons = [
@@ -39,34 +43,110 @@ class _CalculatorState extends State<Calculator> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      backgroundColor: BlackWhiteColors.bgGrey,
+      backgroundColor: Colors.grey[300],
       body: Column(
         children: [
-          Expanded(child: Container()),
+          Expanded(
+            flex: 1,
+            child: Center(
+              child: Container(
+                padding: const EdgeInsets.only(
+                    top: 30, left: 20, right: 20, bottom: 30),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Container(
+                    decoration: const BoxDecoration(boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        offset: Offset(4, 4),
+                        blurRadius: 15,
+                        spreadRadius: 1,
+                        inset: true,
+                      ),
+                      BoxShadow(
+                        color: Colors.white,
+                        offset: Offset(-4, -4),
+                        blurRadius: 15,
+                        spreadRadius: 1,
+                        inset: true,
+                      ),
+                    ]),
+                  ),
+                ),
+              ),
+            ),
+          ),
           Expanded(
             flex: 2,
-            child: Container(
-              child: Center(
-                  child: GridView(
+            child: Center(
+              child: GridView(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4,
                 ),
                 children: buttons
-                    .map((btn) => Center(
-                            child: Container(
-                                child: GridTile(
-                                    child: MyButton(
-                          textButton: btn,
-                          color: (isOperator(btn)
-                              ? BlackWhiteColors.btnBlack
-                              : BlackWhiteColors.bgGrey),
-                          textColor: (isOperator(btn)
-                              ? Colors.white
-                              : BlackWhiteColors.btnBlack),
-                        )))))
+                    .map(
+                      (btn) => Center(
+                        child: GridTile(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 0, bottom: 20, left: 10, right: 10),
+                            child: AnimatedContainer(
+                              duration: const Duration(
+                                milliseconds: 200,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: isOperator(btn)
+                                    ? [
+                                        const BoxShadow(
+                                          color: Colors.black87,
+                                          offset: Offset(4, 4),
+                                          blurRadius: 15,
+                                          spreadRadius: 1,
+                                        ),
+                                        const BoxShadow(
+                                          color: Colors.white,
+                                          offset: Offset(-4, -4),
+                                          blurRadius: 15,
+                                          spreadRadius: 1,
+                                        ),
+                                      ]
+                                    : [
+                                        const BoxShadow(
+                                          color: Colors.grey,
+                                          offset: Offset(4, 4),
+                                          blurRadius: 15,
+                                          spreadRadius: 1,
+                                        ),
+                                        const BoxShadow(
+                                          color: Colors.white,
+                                          offset: Offset(-4, -4),
+                                          blurRadius: 15,
+                                          spreadRadius: 1,
+                                        ),
+                                      ],
+                              ),
+                              child: MyButton(
+                                textButton: btn,
+                                color: (isOperator(btn)
+                                    ? BlackWhiteColors.btnBlack
+                                    : BlackWhiteColors.bgGrey),
+                                textColor: (isOperator(btn)
+                                    ? Colors.white
+                                    : BlackWhiteColors.btnBlack),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
                     .toList(),
-              )),
+              ),
             ),
           ),
         ],
