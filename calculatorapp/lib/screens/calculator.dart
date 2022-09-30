@@ -4,6 +4,7 @@ import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
+import 'package:math_expressions/math_expressions.dart' as math;
 
 class Calculator extends StatefulWidget {
   const Calculator({super.key});
@@ -54,27 +55,53 @@ class _CalculatorState extends State<Calculator> {
             flex: 1,
             child: Center(
               child: Container(
-                padding: const EdgeInsets.only(
-                    top: 30, left: 20, right: 20, bottom: 30),
+                width: screenWidth - 40,
+                padding: const EdgeInsets.symmetric(vertical: 30),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Container(
-                    decoration: const BoxDecoration(boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(4, 4),
-                        blurRadius: 15,
-                        spreadRadius: 1,
-                        inset: true,
-                      ),
-                      BoxShadow(
-                        color: Colors.white,
-                        offset: Offset(-4, -4),
-                        blurRadius: 15,
-                        spreadRadius: 1,
-                        inset: true,
-                      ),
-                    ]),
+                    decoration: const BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey,
+                          offset: Offset(4, 4),
+                          blurRadius: 15,
+                          spreadRadius: 1,
+                          inset: true,
+                        ),
+                        BoxShadow(
+                          color: Colors.white,
+                          offset: Offset(-4, -4),
+                          blurRadius: 15,
+                          spreadRadius: 1,
+                          inset: true,
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(20),
+                          child: Text(
+                            input,
+                            style: TextStyle(
+                              fontSize: 30,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+                        Container(
+                          padding: EdgeInsets.all(20),
+                          child: Text(
+                            calculations,
+                            style: TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -132,6 +159,23 @@ class _CalculatorState extends State<Calculator> {
                                       ],
                               ),
                               child: MyButton(
+                                buttonTapped: () {
+                                  setState(() {
+                                    switch (btn) {
+                                      case "C":
+                                        input = "";
+                                        break;
+                                      case "DEL":
+                                        input = del(input);
+                                        break;
+                                      case "=":
+                                        break;
+                                      default:
+                                        input += btn;
+                                        break;
+                                    }
+                                  });
+                                },
                                 textButton: btn,
                                 color: (isOperator(btn)
                                     ? BlackWhiteColors.btnBlack
@@ -164,4 +208,12 @@ bool isOperator(String str) {
       str == "-" ||
       str == "+" ||
       str == "=");
+}
+
+String del(String str) {
+  return (str.isEmpty) ? "" : str.substring(0, str.length - 1);
+}
+
+bool equal(String str) {
+  return str.substring(0, str.length - 1) == "=";
 }

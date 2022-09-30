@@ -1,35 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:calculatorapp/global/color_constants.dart';
 
-class MyButton extends StatefulWidget {
+class MyButton extends StatelessWidget {
   final color;
   final textColor;
   final String textButton;
+  final buttonTapped;
 
   const MyButton(
-      {super.key, this.color, this.textColor, required this.textButton});
+      {super.key,
+      this.color,
+      this.textColor,
+      required this.textButton,
+      this.buttonTapped});
 
-  @override
-  State<MyButton> createState() => _MyButtonState();
-}
-
-class _MyButtonState extends State<MyButton> {
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: Container(
-          color: widget.color,
-          child: Center(
-            child: Text(
-              widget.textButton,
-              style: TextStyle(
-                color: widget.textColor,
-                fontSize: 30,
-                fontFamily: "Orbitron",
+    return GestureDetector(
+      onTap: buttonTapped,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+            color: color,
+            child: Center(
+              child: Text(
+                textButton,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: 30,
+                  fontFamily: "Orbitron",
+                ),
               ),
-            ),
-          )),
+            )),
+      ),
     );
   }
 }
