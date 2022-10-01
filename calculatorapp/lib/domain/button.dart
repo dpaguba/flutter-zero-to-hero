@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:calculatorapp/global/color_constants.dart';
 
 class MyButton extends StatelessWidget {
   final color;

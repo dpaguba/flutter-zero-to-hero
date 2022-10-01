@@ -1,8 +1,6 @@
 import 'package:calculatorapp/domain/button.dart';
 import 'package:calculatorapp/global/color_constants.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:math_expressions/math_expressions.dart';
 
@@ -14,12 +12,14 @@ class Calculator extends StatefulWidget {
 }
 
 class _CalculatorState extends State<Calculator> {
-  var input = "";
-  var calculations = "";
+  String first = "";
+  String second = "";
+  String operator = "";
+  double? result;
 
   List<String> buttons = [
     "C",
-    "%",
+    "±",
     "DEL",
     "÷",
     "7",
@@ -44,34 +44,79 @@ class _CalculatorState extends State<Calculator> {
     return (str == "C" ||
         str == "DEL" ||
         str == "÷" ||
-        str == "%" ||
+        str == "±" ||
         str == "x" ||
         str == "-" ||
         str == "+" ||
         str == "=");
   }
 
+  bool isOperatorPressed() {
+    return operator != "";
+  }
+
   String del(String str) {
     return (str.isEmpty) ? "" : str.substring(0, str.length - 1);
   }
 
-  equalPressed() {
-    String finalQuestion = input;
+  void clearAll() {
+    first = "";
+    second = "";
+    operator = "";
+    result = null;
+  }
 
-    if (finalQuestion.contains("÷")) {
-      finalQuestion.replaceAll("÷", "/");
+  void delete() {
+    if (second.isNotEmpty) {
+      second = second.substring(0, second.length - 1);
+    } else if (operator.isNotEmpty) {
+      operator = "";
+    } else if (first.isNotEmpty) {
+      first = first.substring(0, first.length - 1);
     }
+  }
 
-    if (finalQuestion.contains("x")) {
-      finalQuestion.replaceAll("x", "*");
+  String changeSign(String str) {
+    double num = double.parse(str);
+    num = num + (-num * 2);
+    return num.toString();
+  }
+
+  calculate() {
+    double a = double.parse(first);
+    double b = double.parse(second);
+
+    switch (operator) {
+      case "÷":
+        clearAll();
+        result = a / b;
+        break;
+
+      case "x":
+        clearAll();
+        result = a * b;
+        break;
+
+      case "+":
+        clearAll();
+        result = a + b;
+        break;
+
+      case "-":
+        clearAll();
+        result = a - b;
+        break;
     }
+  }
 
-    Parser p = Parser();
-    Expression exp = p.parse(finalQuestion);
-    ContextModel cm = ContextModel();
-    double eval = exp.evaluate(EvaluationType.REAL, cm);
-
-    calculations = eval.toString();
+  String displayResult() {
+    if (result == null ||
+        (result != null &&
+            (first.isNotEmpty || second.isNotEmpty || operator.isNotEmpty))) {
+      return "";
+    } else {
+      return result.toString();
+    }
   }
 
   @override
@@ -115,18 +160,35 @@ class _CalculatorState extends State<Calculator> {
                       children: [
                         Container(
                           padding: const EdgeInsets.all(20),
-                          child: Text(
-                            input,
-                            style: const TextStyle(
-                              fontSize: 30,
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                first,
+                                style: const TextStyle(
+                                  fontSize: 30,
+                                ),
+                              ),
+                              Text(
+                                operator,
+                                style: const TextStyle(
+                                  fontSize: 30,
+                                ),
+                              ),
+                              Text(
+                                second,
+                                style: const TextStyle(
+                                  fontSize: 30,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         const SizedBox(height: 30),
                         Container(
                           padding: const EdgeInsets.all(20),
                           child: Text(
-                            calculations,
+                            displayResult(),
                             style: const TextStyle(
                                 fontSize: 30, fontWeight: FontWeight.bold),
                           ),
@@ -194,16 +256,44 @@ class _CalculatorState extends State<Calculator> {
                                   setState(() {
                                     switch (btn) {
                                       case "C":
-                                        input = "";
+                                        clearAll();
                                         break;
+
+                                      case "%":
+                                        break;
+
                                       case "DEL":
-                                        input = del(input);
+                                        delete();
                                         break;
+
+                                      case "±":
+                                        if (second.isEmpty) {
+                                          first = changeSign(first);
+                                        } else {
+                                          second = changeSign(second);
+                                        }
+                                        break;
+
                                       case "=":
-                                        equalPressed();
+                                        calculate();
                                         break;
+
                                       default:
-                                        input += btn;
+                                        if (!isOperator(btn)) {
+                                          if (isOperatorPressed() &&
+                                              first.isNotEmpty) {
+                                            second += btn;
+                                          } else {
+                                            first += btn;
+                                          }
+                                        } else {
+                                          operator = (btn != "=" &&
+                                                  btn != "DEL" &&
+                                                  btn != "C" &&
+                                                  btn != "±")
+                                              ? btn
+                                              : operator;
+                                        }
                                         break;
                                     }
                                   });
