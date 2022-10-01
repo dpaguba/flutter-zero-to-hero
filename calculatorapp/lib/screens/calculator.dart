@@ -4,7 +4,7 @@ import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
-import 'package:math_expressions/math_expressions.dart' as math;
+import 'package:math_expressions/math_expressions.dart';
 
 class Calculator extends StatefulWidget {
   const Calculator({super.key});
@@ -17,8 +17,6 @@ class _CalculatorState extends State<Calculator> {
   var input = "";
   var calculations = "";
 
-  // TODO: icons for del, divide, multiply.
-  // TODO: replace two zero buttons with one big zero button
   List<String> buttons = [
     "C",
     "%",
@@ -42,10 +40,43 @@ class _CalculatorState extends State<Calculator> {
     "=",
   ];
 
+  bool isOperator(String str) {
+    return (str == "C" ||
+        str == "DEL" ||
+        str == "÷" ||
+        str == "%" ||
+        str == "x" ||
+        str == "-" ||
+        str == "+" ||
+        str == "=");
+  }
+
+  String del(String str) {
+    return (str.isEmpty) ? "" : str.substring(0, str.length - 1);
+  }
+
+  equalPressed() {
+    String finalQuestion = input;
+
+    if (finalQuestion.contains("÷")) {
+      finalQuestion.replaceAll("÷", "/");
+    }
+
+    if (finalQuestion.contains("x")) {
+      finalQuestion.replaceAll("x", "*");
+    }
+
+    Parser p = Parser();
+    Expression exp = p.parse(finalQuestion);
+    ContextModel cm = ContextModel();
+    double eval = exp.evaluate(EvaluationType.REAL, cm);
+
+    calculations = eval.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: Colors.grey[300],
@@ -83,20 +114,20 @@ class _CalculatorState extends State<Calculator> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Container(
-                          padding: EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(20),
                           child: Text(
                             input,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 30,
                             ),
                           ),
                         ),
                         const SizedBox(height: 30),
                         Container(
-                          padding: EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(20),
                           child: Text(
                             calculations,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 30, fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -169,6 +200,7 @@ class _CalculatorState extends State<Calculator> {
                                         input = del(input);
                                         break;
                                       case "=":
+                                        equalPressed();
                                         break;
                                       default:
                                         input += btn;
@@ -197,23 +229,4 @@ class _CalculatorState extends State<Calculator> {
       ),
     );
   }
-}
-
-bool isOperator(String str) {
-  return (str == "C" ||
-      str == "DEL" ||
-      str == "÷" ||
-      str == "%" ||
-      str == "x" ||
-      str == "-" ||
-      str == "+" ||
-      str == "=");
-}
-
-String del(String str) {
-  return (str.isEmpty) ? "" : str.substring(0, str.length - 1);
-}
-
-bool equal(String str) {
-  return str.substring(0, str.length - 1) == "=";
 }
