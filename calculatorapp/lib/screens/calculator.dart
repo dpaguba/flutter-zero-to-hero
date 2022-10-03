@@ -1,21 +1,40 @@
-import 'package:calculatorapp/domain/button.dart';
+// import 'dart:html';
+// import 'dart:io';
+// import 'package:flutter/cupertino.dart';
+import 'package:calculatorapp/domain/whiteButton.dart';
 import 'package:calculatorapp/global/color_constants.dart';
+import 'package:calculatorapp/main.dart';
+
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
-import 'package:math_expressions/math_expressions.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Calculator extends StatefulWidget {
-  const Calculator({super.key});
+import '../domain/blackButton.dart';
+import '../domain/pressedBlackButton.dart';
+
+class Calculator extends ConsumerStatefulWidget {
+  // final bool darkmode;
+
+  const Calculator({Key? key}) : super(key: key);
 
   @override
-  State<Calculator> createState() => _CalculatorState();
+  _CalculatorState createState() => _CalculatorState();
 }
 
-class _CalculatorState extends State<Calculator> {
+class _CalculatorState extends ConsumerState<Calculator> {
+  @override
+  void initState() {
+    super.initState();
+    // "ref" can be used in all life-cycles of a StatefulWidget.
+    ref.read(myProvider);
+  }
+
   String first = "";
   String second = "";
   String operator = "";
   double? result;
+
+  List<bool> buttonPressed = List<bool>.filled(20, false, growable: false);
 
   List<String> buttons = [
     "C",
@@ -40,91 +59,13 @@ class _CalculatorState extends State<Calculator> {
     "=",
   ];
 
-  bool isOperator(String str) {
-    return (str == "C" ||
-        str == "DEL" ||
-        str == "÷" ||
-        str == "±" ||
-        str == "x" ||
-        str == "-" ||
-        str == "+" ||
-        str == "=");
-  }
-
-  bool isOperatorPressed() {
-    return operator != "";
-  }
-
-  String del(String str) {
-    return (str.isEmpty) ? "" : str.substring(0, str.length - 1);
-  }
-
-  void clearAll() {
-    first = "";
-    second = "";
-    operator = "";
-    result = null;
-  }
-
-  void delete() {
-    if (second.isNotEmpty) {
-      second = second.substring(0, second.length - 1);
-    } else if (operator.isNotEmpty) {
-      operator = "";
-    } else if (first.isNotEmpty) {
-      first = first.substring(0, first.length - 1);
-    }
-  }
-
-  String changeSign(String str) {
-    double num = double.parse(str);
-    num = num + (-num * 2);
-    return num.toString();
-  }
-
-  calculate() {
-    double a = double.parse(first);
-    double b = double.parse(second);
-
-    switch (operator) {
-      case "÷":
-        clearAll();
-        result = a / b;
-        break;
-
-      case "x":
-        clearAll();
-        result = a * b;
-        break;
-
-      case "+":
-        clearAll();
-        result = a + b;
-        break;
-
-      case "-":
-        clearAll();
-        result = a - b;
-        break;
-    }
-  }
-
-  String displayResult() {
-    if (result == null ||
-        (result != null &&
-            (first.isNotEmpty || second.isNotEmpty || operator.isNotEmpty))) {
-      return "";
-    } else {
-      return result.toString();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor:
+          (ref.watch(myProvider)) ? ColorConst.background : Colors.grey[300],
       body: Column(
         children: [
           Expanded(
@@ -218,94 +159,27 @@ class _CalculatorState extends State<Calculator> {
                               duration: const Duration(
                                 milliseconds: 200,
                               ),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: isOperator(btn)
-                                    ? [
-                                        const BoxShadow(
-                                          color: Colors.black87,
-                                          offset: Offset(4, 4),
-                                          blurRadius: 15,
-                                          spreadRadius: 1,
-                                        ),
-                                        const BoxShadow(
-                                          color: Colors.white,
-                                          offset: Offset(-4, -4),
-                                          blurRadius: 15,
-                                          spreadRadius: 1,
-                                        ),
-                                      ]
-                                    : [
-                                        const BoxShadow(
-                                          color: Colors.grey,
-                                          offset: Offset(4, 4),
-                                          blurRadius: 15,
-                                          spreadRadius: 1,
-                                        ),
-                                        const BoxShadow(
-                                          color: Colors.white,
-                                          offset: Offset(-4, -4),
-                                          blurRadius: 15,
-                                          spreadRadius: 1,
-                                        ),
-                                      ],
-                              ),
-                              child: MyButton(
-                                buttonTapped: () {
-                                  setState(() {
-                                    switch (btn) {
-                                      case "C":
-                                        clearAll();
-                                        break;
-
-                                      case "%":
-                                        break;
-
-                                      case "DEL":
-                                        delete();
-                                        break;
-
-                                      case "±":
-                                        if (second.isEmpty) {
-                                          first = changeSign(first);
-                                        } else {
-                                          second = changeSign(second);
-                                        }
-                                        break;
-
-                                      case "=":
-                                        calculate();
-                                        break;
-
-                                      default:
-                                        if (!isOperator(btn)) {
-                                          if (isOperatorPressed() &&
-                                              first.isNotEmpty) {
-                                            second += btn;
-                                          } else {
-                                            first += btn;
-                                          }
-                                        } else {
-                                          operator = (btn != "=" &&
-                                                  btn != "DEL" &&
-                                                  btn != "C" &&
-                                                  btn != "±")
-                                              ? btn
-                                              : operator;
-                                        }
-                                        break;
-                                    }
-                                  });
-                                },
-                                textButton: btn,
-                                color: (isOperator(btn)
-                                    ? BlackWhiteColors.btnBlack
-                                    : BlackWhiteColors.bgGrey),
-                                textColor: (isOperator(btn)
-                                    ? Colors.white
-                                    : BlackWhiteColors.btnBlack),
-                              ),
+                              child: isOperator(btn)
+                                  ? (isPressed(btn)
+                                      ? PressedBlackButton(
+                                          buttonTapped: () {
+                                            interactWithUI(btn);
+                                          },
+                                          textButton: btn,
+                                        )
+                                      : BlackButton(
+                                          buttonTapped: () {
+                                            interactWithUI(btn);
+                                          },
+                                          textButton: btn,
+                                        ))
+                                  : WhiteButton(
+                                      buttonTapped: () {
+                                        changePressedValue(btn);
+                                        interactWithUI(btn);
+                                      },
+                                      textButton: btn,
+                                    ),
                             ),
                           ),
                         ),
@@ -318,5 +192,158 @@ class _CalculatorState extends State<Calculator> {
         ],
       ),
     );
+  }
+
+  bool isOperator(String str) {
+    return (str == "C" ||
+        str == "DEL" ||
+        str == "÷" ||
+        str == "±" ||
+        str == "x" ||
+        str == "-" ||
+        str == "+" ||
+        str == "=");
+  }
+
+  bool isOperatorPressed() {
+    return operator != "";
+  }
+
+  void changePressedValue(String str) {
+    buttonPressed = List<bool>.filled(20, false, growable: false);
+
+    int index = buttons.indexOf(str);
+    buttonPressed[index] = true;
+  }
+
+  bool isPressed(String btn) {
+    return buttonPressed[buttons.indexOf(btn)];
+  }
+
+  // void setStyleForButtons(String btn){
+  //   changePressedValue(btn);
+  //   for(int i = 0; i < buttonPressed.length; i++){
+  //     if(buttonPressed[i]){
+  //       PressedBlackButton(
+  //         buttonTapped: () {
+  //           interactWithUI(btn);
+  //         },
+  //         textButton: btn,
+  //       );
+
+  //     }else{
+  //       BlackButton(
+  //         buttonTapped: () {
+  //           interactWithUI(btn);
+  //         },
+  //         textButton: btn,
+  //       );
+  //     }
+  //   }
+  // }
+
+  void clearAll() {
+    first = "";
+    second = "";
+    operator = "";
+    result = null;
+  }
+
+  void delete() {
+    if (second.isNotEmpty) {
+      second = second.substring(0, second.length - 1);
+    } else if (operator.isNotEmpty) {
+      operator = "";
+    } else if (first.isNotEmpty) {
+      first = first.substring(0, first.length - 1);
+    }
+
+    if (result != null) {
+      return result = null;
+    }
+  }
+
+  String changeSign(String str) {
+    double num = double.parse(str);
+    num = num + (-num * 2);
+    return num.toString();
+  }
+
+  calculate() {
+    double a = double.parse(first);
+    double b = double.parse(second);
+
+    switch (operator) {
+      case "÷":
+        clearAll();
+        result = a / b;
+        break;
+
+      case "x":
+        clearAll();
+        result = a * b;
+        break;
+
+      case "+":
+        clearAll();
+        result = a + b;
+        break;
+
+      case "-":
+        clearAll();
+        result = a - b;
+        break;
+    }
+  }
+
+  String displayResult() {
+    if (result == null ||
+        (result != null &&
+            (first.isNotEmpty || second.isNotEmpty || operator.isNotEmpty))) {
+      return "";
+    } else {
+      return result.toString();
+    }
+  }
+
+  void interactWithUI(String btn) {
+    setState(() {
+      changePressedValue(btn);
+      switch (btn) {
+        case "C":
+          clearAll();
+          break;
+
+        case "DEL":
+          delete();
+          break;
+
+        case "±":
+          if (second.isEmpty) {
+            first = changeSign(first);
+          } else {
+            second = changeSign(second);
+          }
+          break;
+
+        case "=":
+          calculate();
+          break;
+
+        default:
+          if (!isOperator(btn)) {
+            if (isOperatorPressed() && first.isNotEmpty) {
+              second += btn;
+            } else {
+              first += btn;
+            }
+          } else {
+            operator = (btn != "=" && btn != "DEL" && btn != "C" && btn != "±")
+                ? btn
+                : operator;
+          }
+          break;
+      }
+    });
   }
 }

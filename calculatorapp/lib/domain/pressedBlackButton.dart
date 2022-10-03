@@ -1,0 +1,56 @@
+import 'package:calculatorapp/global/color_constants.dart';
+import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
+import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class PressedBlackButton extends ConsumerWidget {
+  final String textButton;
+  final buttonTapped;
+
+  const PressedBlackButton({
+    super.key,
+    required this.textButton,
+    this.buttonTapped,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return GestureDetector(
+      onTap: buttonTapped,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          decoration: BoxDecoration(
+              color: ColorConst.background,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: const [
+                BoxShadow(
+                    // color: Color.fromARGB(217, 52, 51, 51),
+                    color: ColorConst.shadowTop,
+                    offset: Offset(-6, -6),
+                    blurRadius: 15,
+                    spreadRadius: 1,
+                    inset: true),
+                BoxShadow(
+                    // color: Colors.white,
+                    color: ColorConst.shadowBottom,
+                    offset: Offset(6, 6),
+                    blurRadius: 15,
+                    spreadRadius: 1,
+                    inset: true),
+              ]),
+          child: Center(
+            child: Text(
+              textButton,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 30,
+                fontFamily: "Orbitron",
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
