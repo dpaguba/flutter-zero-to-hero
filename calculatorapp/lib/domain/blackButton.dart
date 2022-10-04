@@ -18,17 +18,17 @@ class BlackButton extends ConsumerWidget {
       onTap: buttonTapped,
       child: Container(
         decoration: BoxDecoration(
-            color: ColorConst.background,
+            color: ColorConst.bBackground,
             borderRadius: BorderRadius.circular(20),
             boxShadow: const [
               BoxShadow(
-                color: ColorConst.shadowBottom,
+                color: ColorConst.bShadowBottom,
                 offset: Offset(4, 4),
                 blurRadius: 15,
                 spreadRadius: 1,
               ),
               BoxShadow(
-                color: Colors.white,
+                color: ColorConst.wText,
                 offset: Offset(-4, -4),
                 blurRadius: 15,
                 spreadRadius: 1,
@@ -40,7 +40,7 @@ class BlackButton extends ConsumerWidget {
             child: Text(
               textButton,
               style: const TextStyle(
-                color: Colors.white,
+                color: ColorConst.wText,
                 fontSize: 30,
                 fontFamily: "Orbitron",
               ),

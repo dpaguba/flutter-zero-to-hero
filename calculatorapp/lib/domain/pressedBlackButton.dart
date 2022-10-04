@@ -21,19 +21,17 @@ class PressedBlackButton extends ConsumerWidget {
         borderRadius: BorderRadius.circular(20),
         child: Container(
           decoration: BoxDecoration(
-              color: ColorConst.background,
+              color: ColorConst.bBackground,
               borderRadius: BorderRadius.circular(20),
               boxShadow: const [
                 BoxShadow(
-                    // color: Color.fromARGB(217, 52, 51, 51),
-                    color: ColorConst.shadowTop,
+                    color: ColorConst.bShadowTop,
                     offset: Offset(-6, -6),
                     blurRadius: 15,
                     spreadRadius: 1,
                     inset: true),
                 BoxShadow(
-                    // color: Colors.white,
-                    color: ColorConst.shadowBottom,
+                    color: ColorConst.bShadowBottom,
                     offset: Offset(6, 6),
                     blurRadius: 15,
                     spreadRadius: 1,
@@ -43,7 +41,7 @@ class PressedBlackButton extends ConsumerWidget {
             child: Text(
               textButton,
               style: const TextStyle(
-                color: Colors.white,
+                color: ColorConst.wText,
                 fontSize: 30,
                 fontFamily: "Orbitron",
               ),

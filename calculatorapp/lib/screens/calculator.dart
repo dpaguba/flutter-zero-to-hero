@@ -1,16 +1,13 @@
-// import 'dart:html';
-// import 'dart:io';
-// import 'package:flutter/cupertino.dart';
+import 'package:calculatorapp/screens/calcScreen.dart';
 import 'package:calculatorapp/domain/whiteButton.dart';
 import 'package:calculatorapp/global/color_constants.dart';
-import 'package:calculatorapp/main.dart';
 
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
-import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../domain/blackButton.dart';
 import '../domain/pressedBlackButton.dart';
+import '../domain/pressedWhiteButton.dart';
 
 class Calculator extends ConsumerStatefulWidget {
   // final bool darkmode;
@@ -18,16 +15,11 @@ class Calculator extends ConsumerStatefulWidget {
   const Calculator({Key? key}) : super(key: key);
 
   @override
-  _CalculatorState createState() => _CalculatorState();
+  CalculatorState createState() => CalculatorState();
 }
 
-class _CalculatorState extends ConsumerState<Calculator> {
-  @override
-  void initState() {
-    super.initState();
-    // "ref" can be used in all life-cycles of a StatefulWidget.
-    ref.read(myProvider);
-  }
+class CalculatorState extends ConsumerState<Calculator> {
+  // Variables
 
   String first = "";
   String second = "";
@@ -64,8 +56,7 @@ class _CalculatorState extends ConsumerState<Calculator> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor:
-          (ref.watch(myProvider)) ? ColorConst.background : Colors.grey[300],
+      backgroundColor: ColorConst.wBackground,
       body: Column(
         children: [
           Expanded(
@@ -74,70 +65,11 @@ class _CalculatorState extends ConsumerState<Calculator> {
               child: Container(
                 width: screenWidth - 40,
                 padding: const EdgeInsets.symmetric(vertical: 30),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          offset: Offset(4, 4),
-                          blurRadius: 15,
-                          spreadRadius: 1,
-                          inset: true,
-                        ),
-                        BoxShadow(
-                          color: Colors.white,
-                          offset: Offset(-4, -4),
-                          blurRadius: 15,
-                          spreadRadius: 1,
-                          inset: true,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                first,
-                                style: const TextStyle(
-                                  fontSize: 30,
-                                ),
-                              ),
-                              Text(
-                                operator,
-                                style: const TextStyle(
-                                  fontSize: 30,
-                                ),
-                              ),
-                              Text(
-                                second,
-                                style: const TextStyle(
-                                  fontSize: 30,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 30),
-                        Container(
-                          padding: const EdgeInsets.all(20),
-                          child: Text(
-                            displayResult(),
-                            style: const TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                child: CalculatorScreen(
+                    a: first,
+                    b: second,
+                    operator: operator,
+                    result: displayResult()),
               ),
             ),
           ),
@@ -173,13 +105,19 @@ class _CalculatorState extends ConsumerState<Calculator> {
                                           },
                                           textButton: btn,
                                         ))
-                                  : WhiteButton(
-                                      buttonTapped: () {
-                                        changePressedValue(btn);
-                                        interactWithUI(btn);
-                                      },
-                                      textButton: btn,
-                                    ),
+                                  : (isPressed(btn)
+                                      ? PressedWhiteButton(
+                                          buttonTapped: () {
+                                            interactWithUI(btn);
+                                          },
+                                          textButton: btn,
+                                        )
+                                      : WhiteButton(
+                                          buttonTapped: () {
+                                            interactWithUI(btn);
+                                          },
+                                          textButton: btn,
+                                        )),
                             ),
                           ),
                         ),
@@ -193,6 +131,8 @@ class _CalculatorState extends ConsumerState<Calculator> {
       ),
     );
   }
+
+  // Functions
 
   bool isOperator(String str) {
     return (str == "C" ||
@@ -219,28 +159,6 @@ class _CalculatorState extends ConsumerState<Calculator> {
   bool isPressed(String btn) {
     return buttonPressed[buttons.indexOf(btn)];
   }
-
-  // void setStyleForButtons(String btn){
-  //   changePressedValue(btn);
-  //   for(int i = 0; i < buttonPressed.length; i++){
-  //     if(buttonPressed[i]){
-  //       PressedBlackButton(
-  //         buttonTapped: () {
-  //           interactWithUI(btn);
-  //         },
-  //         textButton: btn,
-  //       );
-
-  //     }else{
-  //       BlackButton(
-  //         buttonTapped: () {
-  //           interactWithUI(btn);
-  //         },
-  //         textButton: btn,
-  //       );
-  //     }
-  //   }
-  // }
 
   void clearAll() {
     first = "";
