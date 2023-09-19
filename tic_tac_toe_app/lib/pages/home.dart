@@ -10,10 +10,19 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<String> displayExOh = List.generate(9, (index) => "");
+  bool ohTurn = true; // the first player is Oh
+
+  void _checkWinner() {}
 
   void _tapped(int index) {
     setState(() {
-      displayExOh[index] = "0";
+      if (ohTurn) {
+        displayExOh[index] = "O";
+      } else {
+        displayExOh[index] = "X";
+      }
+      ohTurn = !ohTurn;
+      _checkWinner();
     });
   }
 
