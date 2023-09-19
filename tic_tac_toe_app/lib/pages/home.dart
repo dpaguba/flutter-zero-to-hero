@@ -9,10 +9,42 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String displayExOh = '';
+
+  void _tapped() {
+    setState(() {
+      displayExOh = '0';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: backgroundColor,
+      body: GridView.builder(
+          itemCount: 9,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+          ),
+          itemBuilder: (BuildContext context, int index) {
+            return GestureDetector(
+              onTap: _tapped,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: borderColor),
+                ),
+                child: Center(
+                  child: Text(
+                    displayExOh,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 40,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }),
     );
   }
 }
