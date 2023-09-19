@@ -10,10 +10,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<String> displayExOh = List.generate(9, (index) => "");
-  bool ohTurn = true; // the first player is Oh
+  bool ohTurn = true;
 
-  void _showWinnerDialog() {
-    print("Winner" + displayExOh.toString());
+  void _showWinnerDialog(String winner) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Winner is $winner!"),
+        );
+      },
+    );
   }
 
   void _checkWinner() {
@@ -41,7 +48,7 @@ class _HomePageState extends State<HomePage> {
         (displayExOh[0] == displayExOh[4] &&
             displayExOh[0] == displayExOh[8] &&
             displayExOh[0] != "")) {
-      _showWinnerDialog();
+      _showWinnerDialog(ohTurn ? "X" : "O");
     }
   }
 
