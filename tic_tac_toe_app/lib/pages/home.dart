@@ -45,15 +45,21 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  bool _isTapped(int index) {
+    return displayExOh[index] == "";
+  }
+
   void _tapped(int index) {
     setState(() {
-      if (ohTurn) {
-        displayExOh[index] = "O";
-      } else {
-        displayExOh[index] = "X";
+      if (_isTapped(index)) {
+        if (ohTurn) {
+          displayExOh[index] = "O";
+        } else {
+          displayExOh[index] = "X";
+        }
+        ohTurn = !ohTurn;
+        _checkWinner();
       }
-      ohTurn = !ohTurn;
-      _checkWinner();
     });
   }
 
