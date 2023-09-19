@@ -9,11 +9,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String displayExOh = '';
+  List<String> displayExOh = List.generate(9, (index) => "");
 
-  void _tapped() {
+  void _tapped(int index) {
     setState(() {
-      displayExOh = '0';
+      displayExOh[index] = "0";
     });
   }
 
@@ -28,14 +28,16 @@ class _HomePageState extends State<HomePage> {
           ),
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
-              onTap: _tapped,
+              onTap: () {
+                _tapped(index);
+              },
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: borderColor),
                 ),
                 child: Center(
                   child: Text(
-                    displayExOh,
+                    displayExOh[index],
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 40,
