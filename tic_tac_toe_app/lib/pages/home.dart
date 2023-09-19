@@ -12,7 +12,38 @@ class _HomePageState extends State<HomePage> {
   List<String> displayExOh = List.generate(9, (index) => "");
   bool ohTurn = true; // the first player is Oh
 
-  void _checkWinner() {}
+  void _showWinnerDialog() {
+    print("Winner" + displayExOh.toString());
+  }
+
+  void _checkWinner() {
+    if ((displayExOh[0] == displayExOh[1] &&
+            displayExOh[0] == displayExOh[2] &&
+            displayExOh[0] != "") ||
+        (displayExOh[3] == displayExOh[4] &&
+            displayExOh[3] == displayExOh[5] &&
+            displayExOh[3] != "") ||
+        (displayExOh[6] == displayExOh[7] &&
+            displayExOh[6] == displayExOh[8] &&
+            displayExOh[6] != "") ||
+        (displayExOh[0] == displayExOh[3] &&
+            displayExOh[0] == displayExOh[6] &&
+            displayExOh[0] != "") ||
+        (displayExOh[1] == displayExOh[4] &&
+            displayExOh[1] == displayExOh[7] &&
+            displayExOh[1] != "") ||
+        (displayExOh[2] == displayExOh[5] &&
+            displayExOh[2] == displayExOh[8] &&
+            displayExOh[2] != "") ||
+        (displayExOh[2] == displayExOh[4] &&
+            displayExOh[2] == displayExOh[6] &&
+            displayExOh[2] != "") ||
+        (displayExOh[0] == displayExOh[4] &&
+            displayExOh[0] == displayExOh[8] &&
+            displayExOh[0] != "")) {
+      _showWinnerDialog();
+    }
+  }
 
   void _tapped(int index) {
     setState(() {
