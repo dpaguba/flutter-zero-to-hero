@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:tic_tac_toe_app/pages/intro.dart';
 import 'package:tic_tac_toe_app/utils/constants.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class GamePage extends StatefulWidget {
+  const GamePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<GamePage> createState() => _GamePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _GamePageState extends State<GamePage> {
   List<String> displayExOh = List.generate(9, (index) => "");
   bool ohTurn = true;
   int filledBoxes = 0;

@@ -1,6 +1,6 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
-import 'package:tic_tac_toe_app/pages/home.dart';
+import 'package:tic_tac_toe_app/pages/game.dart';
 import 'package:tic_tac_toe_app/utils/constants.dart';
 
 class IntroPage extends StatefulWidget {
@@ -70,7 +70,7 @@ class _IntroPageState extends State<IntroPage>
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const HomePage(),
+                      builder: (context) => const GamePage(),
                     ),
                   );
                 },
