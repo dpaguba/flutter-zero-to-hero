@@ -23,11 +23,8 @@ This project is a simple implementation of the classic Tic Tac Toe game. It is d
 
 ## Gameplay 📸
 
-<!-- add video  -->
+https://github.com/dpaguba/flutter-tic-tac-toe/assets/88382171/9a05998d-4d2b-4635-b6df-47d94b713606
 
-## Prerequisites 📋
-
-- Flutter installed on your development machine.
 
 ## Installation 🛠️
 
