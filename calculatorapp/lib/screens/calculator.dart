@@ -151,7 +151,7 @@ class CalculatorState extends ConsumerState<Calculator> {
 
   void changePressedValue(String str) {
     buttonPressed = List<bool>.filled(20, false, growable: false);
-
+    _checkLength();
     int index = buttons.indexOf(str);
     buttonPressed[index] = true;
   }
@@ -221,6 +221,40 @@ class CalculatorState extends ConsumerState<Calculator> {
       return "";
     } else {
       return result.toString();
+    }
+  }
+
+  void _checkLength() {
+    if ((first.length + second.length + operator.length) >= 12) {
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Length of this expression is too long!"),
+            actions: [
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      clearAll();
+                      buttonPressed =
+                          List<bool>.filled(20, false, growable: false);
+                    });
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text(
+                    "Try Again",
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
