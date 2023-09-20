@@ -194,7 +194,7 @@ class CalculatorState extends ConsumerState<Calculator> {
     switch (operator) {
       case "÷":
         clearAll();
-        result = a / b;
+        result = (a ~/ b).toDouble();
         break;
 
       case "x":
