@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-const Color backgroundColor = Color.fromARGB(
-  255,
-  66,
-  66,
-  66,
+const Color backgroundColor = Color.fromRGBO(
+  33,
+  33,
+  33,
+  1,
 );
 
 const Color borderColor = Color.fromARGB(
