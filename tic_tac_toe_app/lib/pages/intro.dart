@@ -24,20 +24,20 @@ class _IntroPageState extends State<IntroPage>
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 120),
+                  padding: const EdgeInsets.only(top: 150),
                   child: Container(
                     child: Text(
                       "TIC TAC TOE",
-                      style: customFontWhite,
+                      style: customFontWhite.copyWith(fontSize: 20),
                     ),
                   ),
                 ),
               ),
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Container(
                   child: AvatarGlow(
-                    endRadius: 140,
+                    endRadius: 160,
                     duration: const Duration(seconds: 2),
                     glowColor: Colors.white,
                     repeat: true,
@@ -52,7 +52,7 @@ class _IntroPageState extends State<IntroPage>
                       ),
                       child: CircleAvatar(
                         backgroundColor: backgroundColor,
-                        radius: 80.0,
+                        radius: 90.0,
                         child: Container(
                           child: Image.asset(
                             "lib/images/ttt.png",
@@ -61,19 +61,6 @@ class _IntroPageState extends State<IntroPage>
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: 80,
-                  ),
-                  child: Container(
-                    child: Text(
-                      "created by dpaguba",
-                      style: customFontWhite,
                     ),
                   ),
                 ),
@@ -91,7 +78,7 @@ class _IntroPageState extends State<IntroPage>
                   padding: const EdgeInsets.only(
                     left: 40,
                     right: 40,
-                    bottom: 60,
+                    bottom: 100,
                   ),
                   child: Container(
                     decoration: BoxDecoration(
