@@ -110,6 +110,9 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: backgroundColor,
       body: Column(
         children: [
+          const SizedBox(
+            height: 15,
+          ),
           Expanded(
             child: Container(
               child: Row(
@@ -120,13 +123,16 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
+                        Text(
                           "Player X",
-                          style: textStyle,
+                          style: customFontWhite,
+                        ),
+                        const SizedBox(
+                          height: 20,
                         ),
                         Text(
                           exScore.toString(),
-                          style: textStyle,
+                          style: customFontWhite,
                         ),
                       ],
                     ),
@@ -136,13 +142,16 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
+                        Text(
                           "Player O",
-                          style: textStyle,
+                          style: customFontWhite,
+                        ),
+                        const SizedBox(
+                          height: 20,
                         ),
                         Text(
                           ohScore.toString(),
-                          style: textStyle,
+                          style: customFontWhite,
                         ),
                       ],
                     ),
@@ -172,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                         child: Center(
                           child: Text(
                             displayExOh[index],
-                            style: textStyle,
+                            style: customFontWhite,
                           ),
                         ),
                       ),
@@ -181,7 +190,25 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Expanded(
-            child: Container(),
+            child: Container(
+              child: Center(
+                child: Column(
+                  children: [
+                    Text(
+                      "TIC TAC TOE",
+                      style: customFontWhite,
+                    ),
+                    const SizedBox(
+                      height: 60,
+                    ),
+                    Text(
+                      "created by dpaguba",
+                      style: customFontWhite,
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ],
       ),
