@@ -23,9 +23,7 @@ The Calculator App is a basic calculator application built with Flutter. It prov
 
 ## Video-Preview 📷
 
-
-
-
+https://github.com/dpaguba/flutter-calculator/assets/88382171/3d1cb85b-7541-4eee-99aa-b50b1db79cab
 
 ## Usage 🚀
 
