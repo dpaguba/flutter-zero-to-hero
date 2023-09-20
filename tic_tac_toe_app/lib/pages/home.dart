@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tic_tac_toe_app/pages/intro.dart';
 import 'package:tic_tac_toe_app/utils/constants.dart';
 
 class HomePage extends StatefulWidget {
@@ -111,7 +112,7 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           const SizedBox(
-            height: 15,
+            height: 40,
           ),
           Expanded(
             child: Container(
@@ -189,27 +190,42 @@ class _HomePageState extends State<HomePage> {
                   }),
             ),
           ),
-          Expanded(
-            child: Container(
-              child: Center(
-                child: Column(
-                  children: [
-                    Text(
-                      "TIC TAC TOE",
-                      style: customFontWhite,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const IntroPage(),
+                ),
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 40,
+                right: 40,
+                bottom: 100,
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
+                    color: Colors.white,
+                    child: Center(
+                      child: Text(
+                        "MAIN MENU",
+                        style: customFontBlack,
+                      ),
                     ),
-                    const SizedBox(
-                      height: 60,
-                    ),
-                    Text(
-                      "created by dpaguba",
-                      style: customFontWhite,
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
+          )
         ],
       ),
     );
