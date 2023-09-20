@@ -36,7 +36,7 @@ To run the Calculator App on your local machine, follow these steps:
 2. Change into the project directory:
 
     ```bash
-    cd tic_tac_toe_app
+    cd calculatorapp
 3. Install dependencies:
 
     ```bash
