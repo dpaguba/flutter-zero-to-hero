@@ -11,28 +11,34 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<String> displayExOh = List.generate(9, (index) => "");
   bool ohTurn = true;
+  int filledBoxes = 0;
   int ohScore = 0;
   int exScore = 0;
 
   void _clearBoard() {
     setState(() {
       displayExOh = List.generate(9, (index) => "");
+      filledBoxes = 0;
     });
   }
 
-  void _increaseScore() {
+  void _increaseScore(bool isWon) {
     setState(() {
-      ohTurn ? exScore += 1 : ohScore += 1;
+      if (isWon) {
+        ohTurn ? exScore += 1 : ohScore += 1;
+      }
     });
   }
 
-  void _showWinnerDialog(String winner) {
+  void _showGameEndDialog(String winner) {
     showDialog(
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Winner is: $winner!"),
+          title: winner != "draw"
+              ? Text("Winner is: $winner!")
+              : const Text("It's a draw!"),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -72,8 +78,10 @@ class _HomePageState extends State<HomePage> {
         (displayExOh[0] == displayExOh[4] &&
             displayExOh[0] == displayExOh[8] &&
             displayExOh[0] != "")) {
-      _increaseScore();
-      _showWinnerDialog(ohTurn ? "X" : "O");
+      _increaseScore(true);
+      _showGameEndDialog(ohTurn ? "X" : "O");
+    } else if (filledBoxes == displayExOh.length) {
+      _showGameEndDialog("draw");
     }
   }
 
@@ -90,6 +98,7 @@ class _HomePageState extends State<HomePage> {
           displayExOh[index] = "X";
         }
         ohTurn = !ohTurn;
+        filledBoxes += 1;
         _checkWinner();
       }
     });
