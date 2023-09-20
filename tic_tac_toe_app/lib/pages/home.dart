@@ -11,13 +11,37 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<String> displayExOh = List.generate(9, (index) => "");
   bool ohTurn = true;
+  int ohScore = 0;
+  int exScore = 0;
+
+  void _clearBoard() {
+    setState(() {
+      displayExOh = List.generate(9, (index) => "");
+    });
+  }
+
+  void _increaseScore() {
+    setState(() {
+      ohTurn ? exScore += 1 : ohScore += 1;
+    });
+  }
 
   void _showWinnerDialog(String winner) {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Winner is $winner!"),
+          title: Text("Winner is: $winner!"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                _clearBoard();
+                Navigator.of(context).pop();
+              },
+              child: const Text("Play Again!"),
+            ),
+          ],
         );
       },
     );
@@ -48,6 +72,7 @@ class _HomePageState extends State<HomePage> {
         (displayExOh[0] == displayExOh[4] &&
             displayExOh[0] == displayExOh[8] &&
             displayExOh[0] != "")) {
+      _increaseScore();
       _showWinnerDialog(ohTurn ? "X" : "O");
     }
   }
@@ -74,32 +99,83 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: GridView.builder(
-          itemCount: 9,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-          ),
-          itemBuilder: (BuildContext context, int index) {
-            return GestureDetector(
-              onTap: () {
-                _tapped(index);
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: borderColor),
-                ),
-                child: Center(
-                  child: Text(
-                    displayExOh[index],
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 40,
+      body: Column(
+        children: [
+          Expanded(
+            child: Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Player X",
+                          style: textStyle,
+                        ),
+                        Text(
+                          exScore.toString(),
+                          style: textStyle,
+                        ),
+                      ],
                     ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Player O",
+                          style: textStyle,
+                        ),
+                        Text(
+                          ohScore.toString(),
+                          style: textStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            );
-          }),
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: GridView.builder(
+                  itemCount: 9,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                  ),
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      onTap: () {
+                        _tapped(index);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: borderColor),
+                        ),
+                        child: Center(
+                          child: Text(
+                            displayExOh[index],
+                            style: textStyle,
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
+            ),
+          ),
+          Expanded(
+            child: Container(),
+          ),
+        ],
+      ),
     );
   }
 }
