@@ -38,15 +38,26 @@ class _GamePageState extends State<GamePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: winner != "draw"
-              ? Text("Winner is: $winner!")
-              : const Text("It's a draw!"),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                _clearBoard();
-                Navigator.of(context).pop();
-              },
-              child: const Text("Play Again!"),
+              ? Text(
+                  "Winner is: $winner!",
+                  style: customFontBlack.copyWith(fontSize: 15),
+                )
+              : Text(
+                  "It's a draw!",
+                  style: customFontBlack,
+                ),
+          actions: [
+            Center(
+              child: TextButton(
+                onPressed: () {
+                  _clearBoard();
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  "Play Again",
+                  style: customFontBlack,
+                ),
+              ),
             ),
           ],
         );
