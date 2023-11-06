@@ -1,11 +1,5 @@
 # Calculator App 🧮
 
-A simple calculator app built using Flutter.
-
-## Introduction 📝
-
-The Calculator App is a basic calculator application built with Flutter. It provides essential arithmetic operations such as addition ➕, subtraction ➖, multiplication ✖️, and division ➗. The app also supports decimal numbers and provides a user-friendly interface for performing calculations.
-
 ## Technologies Used 🛠️
 - [Flutter](https://flutter.dev/): A UI toolkit for building natively compiled applications for mobile, web, and desktop from a single codebase.
 - [Google Fonts](https://pub.dev/packages/google_fonts): A Flutter package for using custom fonts in your app.
@@ -21,9 +15,6 @@ The Calculator App is a basic calculator application built with Flutter. It prov
 - Change sign button ± for negating numbers.
 - Dynamic result display.
 
-## Video-Preview 📷
-
-https://github.com/dpaguba/flutter-calculator/assets/88382171/3d1cb85b-7541-4eee-99aa-b50b1db79cab
 
 ## Usage 🚀
 
@@ -36,7 +27,7 @@ To run the Calculator App on your local machine, follow these steps:
 2. Change into the project directory:
 
     ```bash
-    cd calculatorapp
+    cd calculator/calculatorapp
 3. Install dependencies:
 
     ```bash
