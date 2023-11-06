@@ -1,7 +1,7 @@
 # Calculator App 🧮
 
-
 ## Technologies Used 🛠️
+
 - [Flutter](https://flutter.dev/): A UI toolkit for building natively compiled applications for mobile, web, and desktop from a single codebase.
 - [Google Fonts](https://pub.dev/packages/google_fonts): A Flutter package for using custom fonts in your app.
 - [Path Provider](https://pub.dev/packages/path_provider): A Flutter plugin for accessing commonly used locations on the file system.
@@ -16,10 +16,6 @@
 - Change sign button ± for negating numbers.
 - Dynamic result display.
 
-## Video-Preview 📷
-
-https://github.com/dpaguba/flutter-calculator/assets/88382171/3d1cb85b-7541-4eee-99aa-b50b1db79cab
-
 ## Usage 🚀
 
 To run the Calculator App on your local machine, follow these steps:
@@ -28,16 +24,22 @@ To run the Calculator App on your local machine, follow these steps:
 
    ```bash
    git clone [repository-url]
+   ```
+
 2. Change into the project directory:
 
-    ```bash
-    cd calculatorapp
+   ```bash
+   cd calculator/calculatorapp
+   ```
+
 3. Install dependencies:
 
-    ```bash
-    flutter pub get
+   ```bash
+   flutter pub get
+   ```
+
 4. Run the Flutter app:
 
-    ```bash
-    flutter run
-
+   ```bash
+   flutter run
+   ```
